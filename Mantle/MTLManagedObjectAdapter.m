@@ -465,7 +465,10 @@ static id performInContext(NSManagedObjectContext *context, id (^block)(void)) {
 
 					[relationshipCollection addObject:nestedObject];
 				}
-
+				NSSet *existedSet = [managedObject valueForKey:managedObjectKey];
+				if (existedSet) {
+					[relationshipCollection unionSet:existedSet];
+				}
 				[managedObject setValue:relationshipCollection forKey:managedObjectKey];
 			} else {
 				NSManagedObject *nestedObject = objectForRelationshipFromModel(value);
